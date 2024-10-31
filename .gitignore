@@ -1,0 +1,9 @@
+.vs
+
+*.exe
+*.obj
+*x64
+
+# Mac
+
+*.DS_Store
