@@ -32,8 +32,8 @@ public:
 
 	consteval size_t size() { return count; }
 
-	constexpr T operator[](int idx) const { return data[idx]; };
-	constexpr T& operator[](int idx) { return data[idx]; };
+	constexpr T operator[](size_t idx) const { return data[idx]; };
+	constexpr T& operator[](size_t idx) { return data[idx]; };
 
 	// Unary +/- (not much of a point in + but whatever)
 	constexpr Vec<T, count> operator+() { return *this; }
