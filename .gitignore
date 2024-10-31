@@ -1,4 +1,5 @@
 .vs
+vcpkg_installed
 
 *.exe
 *.obj
