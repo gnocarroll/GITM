@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Events.hpp" />
     <ClInclude Include="src\Mat.hpp" />
     <ClInclude Include="src\MyIntDef.hpp" />
     <ClInclude Include="src\Setup.hpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="src\WrapGLContext.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Setup.cpp" />
     <ClCompile Include="src\Window.cpp" />

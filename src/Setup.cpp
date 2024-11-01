@@ -1,5 +1,8 @@
 #include "src/Setup.hpp"
 
+#include <cstdio>
+#include <cstdlib>
+
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
@@ -10,7 +13,6 @@
 #define MY_GL_MINOR_VERSION (3)
 
 #define DEPTH_BUF_BITS      (24)
-
 
 bool initialSetup() {
 	// Init all SDL subsystems (e.g. video, audio)
@@ -45,8 +47,10 @@ bool initialSetup() {
 bool loadGL() {
 	// GLAD can get us the function pointers
 
-	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
+	if (!gladLoadGLLoader(SDL_GL_GetProcAddress)) {
+		perrorCustom("loadGL", "function pointer loading with GLAD failed");
 		return false;
+	}
 
 	return true;
 }
