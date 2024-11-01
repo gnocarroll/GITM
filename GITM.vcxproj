@@ -128,13 +128,17 @@
   <ItemGroup>
     <ClInclude Include="src\Mat.hpp" />
     <ClInclude Include="src\MyIntDef.hpp" />
+    <ClInclude Include="src\Setup.hpp" />
     <ClInclude Include="src\Util.hpp" />
     <ClInclude Include="src\Vec.hpp" />
     <ClInclude Include="src\Window.hpp" />
+    <ClInclude Include="src\WrapGLContext.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Setup.cpp" />
     <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\WrapGLContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

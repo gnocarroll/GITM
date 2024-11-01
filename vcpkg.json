@@ -1,5 +1,11 @@
 {
   "dependencies": [
-    "sdl2"
+    "sdl2",
+    {
+      "name": "glad",
+      "features": [
+        "gl-api-33"
+      ]
+    }
   ]
 }

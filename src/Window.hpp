@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "src/WrapGLContext.hpp"
+
 class Window {
 private:
 	std::string title;
@@ -20,5 +22,9 @@ public:
 
 	bool IsValid() {
 		return (resource != nullptr);
+	}
+
+	WrapGLContext GetContext() const {
+		return WrapGLContext(resource);
 	}
 };
