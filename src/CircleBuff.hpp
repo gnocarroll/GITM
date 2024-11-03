@@ -8,8 +8,23 @@ private:
 	size_t back;
 
 public:
-	CircleBuff() : front(count - 1), back(0) {}
+	CircleBuff() : data{}, front(count - 1), back(0) {}
 
-	void Push(T el);
-	T Pop();
+	void Push(T el) {
+		if (back == front) {
+			front = (front + 1) % count;
+		}
+
+		data[back] = el;
+		back = (back + 1) % count;
+	}
+
+	T Pop() {
+		if (front + 1 % count == back) {
+			return T(0);
+		}
+
+		front = (front + 1) % count;
+		return data[front];
+	}
 };

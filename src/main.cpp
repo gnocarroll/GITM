@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <SDL2/SDL_keycode.h>
 
 #include "src/Events.hpp"
@@ -34,9 +32,6 @@ int main() {
 
 		if (keyPressed(SDLK_ESCAPE))
 			setShouldQuit(true);
-
-		while (char c = popTextInput())
-			std::cout << c;
 	}
 
 	return 0;

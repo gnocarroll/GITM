@@ -141,6 +141,7 @@ void pollEvents() {
 		EVENT_CASE(SDL_WINDOWEVENT, event);
 		EVENT_CASE(SDL_KEYDOWN, event);
 		EVENT_CASE(SDL_KEYUP, event);
+		EVENT_CASE(SDL_TEXTINPUT, event);
 		default:
 			break;
 		}
