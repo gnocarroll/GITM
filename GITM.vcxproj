@@ -126,9 +126,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CircleBuff.hpp" />
     <ClInclude Include="src\Events.hpp" />
     <ClInclude Include="src\Mat.hpp" />
     <ClInclude Include="src\MyIntDef.hpp" />
+    <ClInclude Include="src\Render.hpp" />
     <ClInclude Include="src\Setup.hpp" />
     <ClInclude Include="src\Util.hpp" />
     <ClInclude Include="src\Vec.hpp" />
@@ -136,8 +138,10 @@
     <ClInclude Include="src\WrapGLContext.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CircleBuff.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\Setup.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\WrapGLContext.cpp" />

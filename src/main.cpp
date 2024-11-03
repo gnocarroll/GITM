@@ -1,4 +1,9 @@
+#include <iostream>
+
+#include <SDL2/SDL_keycode.h>
+
 #include "src/Events.hpp"
+#include "src/Render.hpp"
 #include "src/Setup.hpp"
 #include "src/Window.hpp"
 
@@ -19,8 +24,19 @@ int main() {
 	if (!loadGL())
 		return 1;
 
+	// setViewportWithWindow calls glViewport internally
+
+	if (!setViewportWithWindow(window))
+		return 1;
+
 	while (!shouldQuit()) {
 		pollEvents();
+
+		if (keyPressed(SDLK_ESCAPE))
+			setShouldQuit(true);
+
+		while (char c = popTextInput())
+			std::cout << c;
 	}
 
 	return 0;

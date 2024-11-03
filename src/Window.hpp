@@ -20,8 +20,12 @@ public:
 
 	~Window();
 
-	bool IsValid() {
+	bool IsValid() const {
 		return (resource != nullptr);
+	}
+
+	void* GetResource() const {
+		return resource;
 	}
 
 	WrapGLContext GetContext() const {
