@@ -30,7 +30,7 @@ int main() {
 	while (!shouldQuit()) {
 		pollEvents();
 
-		if (keyPressed(SDLK_ESCAPE))
+		if (keyThisFrame(SDLK_ESCAPE))
 			setShouldQuit(true);
 	}
 
