@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\CircleBuff.hpp" />
+    <ClInclude Include="src\DebugMode.hpp" />
     <ClInclude Include="src\Events.hpp" />
     <ClInclude Include="src\Mat.hpp" />
     <ClInclude Include="src\MyIntDef.hpp" />
