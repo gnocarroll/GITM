@@ -39,6 +39,9 @@
     <ClCompile Include="src\Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mat.hpp">
@@ -77,6 +80,9 @@
     <ClInclude Include="src\DebugMode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />
@@ -85,5 +91,6 @@
     <None Include="vcpkg.json" />
     <None Include="shaders\vertex.glsl" />
     <None Include="shaders\frag.glsl" />
+    <None Include=".gitignore" />
   </ItemGroup>
 </Project>
