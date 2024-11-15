@@ -37,7 +37,7 @@ struct RAII_CreateShader {
 	}
 };
 
-Shader::Shader(std::initializer_list<const char*> shaders,
+Shader::Shader(std::initializer_list<std::string_view> shaders,
 	std::initializer_list<int> types, bool areStrings) : progID(0) {
 
 	// The error-checking code that collects information to be put in an
@@ -57,13 +57,23 @@ Shader::Shader(std::initializer_list<const char*> shaders,
 	}
 
 	std::array<RAII_CreateShader, MAX_SHADERS> createShaders;
+	std::array<std::vector<char>, MAX_SHADERS> fileDataArr;
 
-	if (!areStrings) {
-		std::cerr << "must provide c strings, file IO not implemented yet\n";
-		return;
+	// put shader data in the std::vector<char> elements of fileDataArr
+	if (areStrings) {
+		for (const auto& [fileData, sv] : std::views::zip(fileDataArr, shaders)) {
+			fileData.reserve(sv.size());
+			fileData.insert(fileData.end(), sv.begin(), sv.end());
+		}
+	}
+	else { // must do file I/O
+		for (const auto& [fileData, sv] : std::views::zip(fileDataArr, shaders)) {
+			fileData = fileToBuf(sv);
+		}
 	}
 
-	for (const auto& [createShader, shader, type] : std::views::zip(createShaders, shaders, types)) {
+	// compile the shaders
+	for (const auto& [createShader, fileData, type] : std::views::zip(createShaders, fileDataArr, types)) {
 		createShader.Init(type);
 		
 		if (!createShader.IsValid()) {
@@ -71,6 +81,7 @@ Shader::Shader(std::initializer_list<const char*> shaders,
 			return;
 		}
 
+		const char* shader = fileData.data();
 		glShaderSource(createShader.ref, 1, &shader, NULL);
 		glCompileShader(createShader.ref);
 
@@ -87,6 +98,7 @@ Shader::Shader(std::initializer_list<const char*> shaders,
 #endif
 	}
 
+	// attach them all to the program and attempt linking
 	progID = glCreateProgram();
 
 	for (size_t i = 0; i < nShaders; i++) {
@@ -118,6 +130,12 @@ void Shader::Use() const {
 	glUseProgram(progID);
 }
 
-int Shader::GetUniformLocation(const std::string& name) const {
-	return glGetUniformLocation(progID, name.c_str());
+int Shader::GetUniformLocation(std::string_view name) const {
+	char buf[128];
+	
+	if (auto alloc = copyOrAlloc(buf, name)) {
+		return glGetUniformLocation(progID, alloc.get());
+	}
+
+	return glGetUniformLocation(progID, buf);
 }

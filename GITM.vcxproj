@@ -145,12 +145,15 @@
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\Setup.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Util.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\WrapGLContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />
     <None Include="README.md" />
+    <None Include="shaders\frag.glsl" />
+    <None Include="shaders\vertex.glsl" />
     <None Include="vcpkg-configuration.json" />
     <None Include="vcpkg.json" />
   </ItemGroup>

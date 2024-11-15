@@ -5,6 +5,8 @@ vcpkg_installed
 *.obj
 *x64
 
+src/stb_image.h
+
 # Mac
 
 *.DS_Store

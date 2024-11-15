@@ -1,7 +1,7 @@
 #pragma once
 
 #include <initializer_list>
-#include <string>
+#include <string_view>
 
 class Shader {
 private:
@@ -9,8 +9,8 @@ private:
 
 public:
 	// boolean true => shaders are already c strings, do not need to do file IO
-	Shader(std::initializer_list<const char*> shaders,
-		std::initializer_list<int> types, bool areStrings = true);
+	Shader(std::initializer_list<std::string_view> shaders,
+		std::initializer_list<int> types, bool areStrings = false);
 	Shader(const Shader& other) = delete;
 	Shader(Shader&& other) = default;
 
@@ -25,5 +25,5 @@ public:
 	}
 
 	void Use() const;
-	int GetUniformLocation(const std::string& name) const;
+	int GetUniformLocation(std::string_view name) const;
 };

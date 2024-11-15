@@ -36,6 +36,9 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mat.hpp">
@@ -80,5 +83,7 @@
     <None Include="README.md" />
     <None Include="vcpkg-configuration.json" />
     <None Include="vcpkg.json" />
+    <None Include="shaders\vertex.glsl" />
+    <None Include="shaders\frag.glsl" />
   </ItemGroup>
 </Project>

@@ -30,6 +30,10 @@ int main() {
 	while (!shouldQuit()) {
 		pollEvents();
 
+		renderScene();
+
+		swapWindow(window);
+
 		if (keyThisFrame(SDLK_ESCAPE))
 			setShouldQuit(true);
 	}
