@@ -32,7 +32,7 @@ int main() {
 
 		renderScene();
 
-		swapWindow(window);
+		window.SwapBuffer();
 
 		if (keyThisFrame(SDLK_ESCAPE))
 			setShouldQuit(true);

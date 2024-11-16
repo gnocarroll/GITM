@@ -22,3 +22,8 @@ Window::~Window() {
 	if (resource)
 		SDL_DestroyWindow(static_cast<SDL_Window*>(resource));
 }
+
+void Window::SwapBuffer() const {
+	if (resource)
+		SDL_GL_SwapWindow(static_cast<SDL_Window*>(resource));
+}

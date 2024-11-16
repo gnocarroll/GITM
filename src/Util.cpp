@@ -18,17 +18,18 @@ std::vector<char> fileToBuf(std::string_view filename) {
 	size_t offset = 0;
 	size_t retSize = initialBufSize;
 
-	while (stream.read(ret.data() + offset, retSize - offset)) {
+	while (bool done = !(stream.read(ret.data() + offset, retSize - offset))) {
 		offset += stream.gcount();
 		
-		if (offset < retSize)
+		if ((done) || (offset < retSize))
 			break;
 
 		retSize *= 2;
 		ret.resize(retSize);
 	}
 
-	ret.resize(offset);
+	ret.resize(offset + 1);
+	ret[offset] = '\0';
 
 	return ret;
 }

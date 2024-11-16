@@ -129,12 +129,15 @@
     <ClInclude Include="src\CircleBuff.hpp" />
     <ClInclude Include="src\DebugMode.hpp" />
     <ClInclude Include="src\Events.hpp" />
+    <ClInclude Include="src\GLUtil.hpp" />
     <ClInclude Include="src\Mat.hpp" />
+    <ClInclude Include="src\MathUtil.hpp" />
     <ClInclude Include="src\MyIntDef.hpp" />
     <ClInclude Include="src\Render.hpp" />
     <ClInclude Include="src\Setup.hpp" />
     <ClInclude Include="src\Shader.hpp" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Texture.hpp" />
     <ClInclude Include="src\Util.hpp" />
     <ClInclude Include="src\Vec.hpp" />
     <ClInclude Include="src\Window.hpp" />
@@ -142,11 +145,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Events.cpp" />
+    <ClCompile Include="src\GLUtil.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\Setup.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Util.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\WrapGLContext.cpp" />

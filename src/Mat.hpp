@@ -1,8 +1,10 @@
 #pragma once
 
+#include <cmath>
 #include <cstddef>
 #include <iostream>
 
+#include "src/MathUtil.hpp"
 #include "src/Vec.hpp"
 
 template <typename T = float, size_t nRows = 3, size_t nCols = nRows>
@@ -40,6 +42,17 @@ public:
 		}
 
 		return ret;
+	}
+
+	constexpr T Element(size_t idx) const {
+		return reinterpret_cast<T*>(this)[idx];
+	}
+	constexpr T& Element(size_t idx) {
+		return reinterpret_cast<T*>(this)[idx];
+	}
+
+	constexpr T* Data() const {
+		return reinterpret_cast<T*>(this):
 	}
 
 	constexpr void SetCol(size_t idx, const Vec<T, nRows>& newCol) {
@@ -212,3 +225,42 @@ static inline std::ostream& operator<<(std::ostream& ostr, const Mat<T, nRows, n
 
 typedef Mat<> M33;
 typedef Mat<float, 4> M44;
+
+// Useful for OpenGL
+
+// assumes we want camera in middle aligned with planes (fine for current
+// purposes), provide perspective projection frustum for OpenGL
+constexpr M44 perspective(float fov, float aspRatio, float near, float far) {
+	float right = near * std::tan(fov / 2.0f * DEG2RAD);
+	float top = right / aspRatio;
+	float dist = far - near;
+
+	M44 ret;
+	float* data = ret.Data();
+
+	data[0] = near / right;
+	data[5] = near / top;
+	data[10] = -(far + near) / dist;
+	data[11] = -(2.0f * far * near) / dist;
+	data[14] = -1.0f;
+
+	return ret;
+}
+
+// now instead for orthographic projection (not sure I will actually use)
+constexpr M44 ortho(float fov, float aspRatio, float near, float far) {
+	float right = near * std::tan(fov / 2.0f * DEG2RAD);
+	float top = right / aspRatio;
+	float dist = far - near;
+
+	M44 ret;
+	float* data = ret.Data();
+
+	data[0] = 1.0f / right;
+	data[5] = 1.0f / top;
+	data[10] = -2.0f / dist;
+	data[11] = -(far + near) / dist;
+	data[15] = 1.0f;
+
+	return ret;
+}

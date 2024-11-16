@@ -20,6 +20,8 @@ public:
 
 	~Window();
 
+	void SwapBuffer() const;
+
 	bool IsValid() const {
 		return (resource != nullptr);
 	}

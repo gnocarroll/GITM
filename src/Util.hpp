@@ -8,11 +8,11 @@
 
 #include <SDL2/SDL_error.h>
 
-inline void perrorCustom(const std::string& s, const std::string& msg) {
+inline void perrorCustom(std::string_view s, std::string_view msg) {
 	std::cerr << s << ": " << msg << '\n';
 }
 
-inline void perrorSDL(const std::string& s) {
+inline void perrorSDL(std::string_view s) {
 	std::cerr << s << ": " << SDL_GetError() << '\n';
 }
 
