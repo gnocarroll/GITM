@@ -223,8 +223,64 @@ static inline std::ostream& operator<<(std::ostream& ostr, const Mat<T, nRows, n
 	return ostr;
 }
 
+typedef Mat<float, 2> M22;
 typedef Mat<> M33;
 typedef Mat<float, 4> M44;
+
+constexpr M22 rotation2D(float degrees) {
+	float rad = DEG2RAD * degrees;
+	float cosRet = std::cos(rad);
+	float sinRet = std::sin(rad);
+
+	return M22{
+		V2{cosRet, sinRet},
+		V2{-sinRet, cosRet}
+	};
+}
+
+template <size_t ax, size_t nRows>
+constexpr Mat<float, nRows, nRows> rotationAxis(float degrees) {
+	static_assert(ax <= 2);
+	static_assert((nRows == 3) || (nRows == 4));
+
+	float rad = DEG2RAD * degrees;
+	float cosRet = std::cos(rad);
+	float sinRet = std::sin(rad);
+
+	Mat<float, nRows, nRows> ret;
+
+	auto sh = [](size_t idx) consteval {
+		return (idx + ax) % 3;
+	};
+
+	ret[sh(0)][sh(0)] = 1.0f;
+
+	ret[sh(1)][sh(1)] = cosRet;
+	ret[sh(1)][sh(2)] = -sinRet;
+	ret[sh(2)][sh(1)] = sinRet;
+	ret[sh(2)][sh(2)] = cosRet;
+
+	if constexpr (nRows == 4) {
+		ret[3][3] = 1.0f;
+	}
+
+	return ret;
+}
+
+template <size_t nRows>
+constexpr Mat<float, nRows, nRows> rotationX(float degrees) {
+	return rotationAxis<0, nRows>(degrees);
+}
+
+template <size_t nRows>
+constexpr Mat<float, nRows, nRows> rotationY(float degrees) {
+	return rotationAxis<1, nRows>(degrees);
+}
+
+template <size_t nRows>
+constexpr Mat<float, nRows, nRows> rotationZ(float degrees) {
+	return rotationAxis<2, nRows>(degrees);
+}
 
 // Useful for OpenGL
 

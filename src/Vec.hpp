@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <cstddef>
 #include <iostream>
 
@@ -30,7 +31,7 @@ public:
 		}
 	}
 
-	consteval size_t size() { return count; }
+	consteval size_t Count() { return count; }
 
 	constexpr T operator[](size_t idx) const { return data[idx]; };
 	constexpr T& operator[](size_t idx) { return data[idx]; };
@@ -129,6 +130,47 @@ public:
 		Vec<T, count> ret = *this;
 		return ret /= divisor;
 	}
+
+	// Additional useful functionality
+
+	constexpr auto Length() const {
+		return std::sqrt((*this) * (*this));
+	}
+
+	constexpr Vec<T, count> Normalize() const {
+		return (*this) / Length();
+	}
+
+	constexpr Mat<T, count, count> CrossProdMat() const
+		requires (count == 3) {
+		Mat<T, count, count> ret;
+		
+		ret[0][1] = -data[2];
+		ret[0][2] = data[1];
+
+		ret[1][0] = data[2];
+		ret[1][2] = -data[0];
+
+		ret[2][0] = -data[1];
+		ret[2][1] = data[0];
+
+		return ret;
+	}
+
+	template <size_t otherCount>
+	constexpr Mat<T, count, otherCount> OuterProd(
+		const Vec<T, otherCount>& other) {
+
+		Mat<T, count, otherCount> ret;
+
+		for (size_t i = 0; i < count; i++) {
+			for (size_t j = 0; j < otherCount; j++) {
+				ret[i][j] = data[i] * other[j];
+			}
+		}
+
+		return ret;
+	}
 };
 
 // v * scalar, scalar * v
@@ -183,3 +225,7 @@ typedef Vec<int, 2> V2int;
 typedef Vec<> V3;
 typedef Vec<i32> V3i;
 typedef Vec<ui32> V3ui;
+
+typedef Vec<> V4;
+typedef Vec<i32> V4i;
+typedef Vec<ui32> V4ui;
