@@ -1,8 +1,11 @@
 #pragma once
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <iostream>
+
+#include <gcem.hpp>
 
 #include "src/MathUtil.hpp"
 #include "src/Vec.hpp"
@@ -51,13 +54,27 @@ public:
 		return reinterpret_cast<T*>(this)[idx];
 	}
 
-	constexpr T* Data() const {
-		return reinterpret_cast<T*>(this):
+	constexpr T* Data() {
+		return reinterpret_cast<T*>(this);
 	}
 
 	constexpr void SetCol(size_t idx, const Vec<T, nRows>& newCol) {
 		for (size_t i = 0; i < nRows; i++) {
 			rows[i][idx] = newCol[i];
+		}
+	}
+
+	template <size_t otherRows, size_t otherCols>
+	constexpr void CopyIn(size_t row, size_t col,
+		const Mat<T, otherRows, otherCols>& other) {
+		
+		size_t rowEnd = std::min(nRows, row + otherRows);
+		size_t colEnd = std::min(nCols, col + otherCols);
+
+		for (size_t i = row; i < rowEnd; i++) {
+			for (size_t j = col; j < colEnd; j++) {
+				rows[i][j] = other[i - row][j - col];
+			}
 		}
 	}
 
@@ -227,10 +244,40 @@ typedef Mat<float, 2> M22;
 typedef Mat<> M33;
 typedef Mat<float, 4> M44;
 
+constexpr M33 crossProdMat(const V3& v) {
+	M33 ret;
+
+	ret[0][1] = -v[2];
+	ret[0][2] = v[1];
+
+	ret[1][0] = v[2];
+	ret[1][2] = -v[0];
+
+	ret[2][0] = -v[1];
+	ret[2][1] = v[0];
+
+	return ret;
+}
+
+template <typename T, size_t count, size_t otherCount>
+constexpr Mat<T, count, otherCount> outerProd(
+	const Vec<T, count>& v, const Vec<T, otherCount>& other) {
+
+	Mat<T, count, otherCount> ret;
+
+	for (size_t i = 0; i < count; i++) {
+		for (size_t j = 0; j < otherCount; j++) {
+			ret[i][j] = v[i] * other[j];
+		}
+	}
+
+	return ret;
+}
+
 constexpr M22 rotation2D(float degrees) {
 	float rad = DEG2RAD * degrees;
-	float cosRet = std::cos(rad);
-	float sinRet = std::sin(rad);
+	float cosRet = gcem::cos(rad);
+	float sinRet = gcem::sin(rad);
 
 	return M22{
 		V2{cosRet, sinRet},
@@ -282,12 +329,42 @@ constexpr Mat<float, nRows, nRows> rotationZ(float degrees) {
 	return rotationAxis<2, nRows>(degrees);
 }
 
+template <size_t nRows, size_t axCount>
+constexpr Mat<float, nRows, nRows> rotation(float degrees, Vec<float, axCount> ax) {
+	static_assert((nRows == 3) || (nRows == 4));
+	static_assert((axCount == 3) || (axCount == 4));
+
+	// Want first 3 entries of ax to be normalized V3
+	V3& axRef = *((V3*)&ax);
+	axRef = axRef.Normalize();
+
+	float rad = DEG2RAD * degrees;
+	float sinRet = gcem::sin(rad);
+	float cosRet = gcem::cos(rad);
+
+	M33 topLeft = cosRet * M33::Identity() +
+		sinRet * crossProdMat(axRef) +
+		(1.0f - cosRet) * outerProd(axRef, axRef);
+
+	Mat<float, nRows, nRows> ret;
+
+	if constexpr (nRows == 3) {
+		ret = topLeft;
+		return ret;
+	}
+
+	ret.CopyIn(0, 0, topLeft);
+	ret[3][3] = 1.0f;
+
+	return ret;
+}
+
 // Useful for OpenGL
 
 // assumes we want camera in middle aligned with planes (fine for current
 // purposes), provide perspective projection frustum for OpenGL
 constexpr M44 perspective(float fov, float aspRatio, float near, float far) {
-	float right = near * std::tan(fov / 2.0f * DEG2RAD);
+	float right = near * gcem::tan(fov / 2.0f * DEG2RAD);
 	float top = right / aspRatio;
 	float dist = far - near;
 
@@ -305,7 +382,7 @@ constexpr M44 perspective(float fov, float aspRatio, float near, float far) {
 
 // now instead for orthographic projection (not sure I will actually use)
 constexpr M44 ortho(float fov, float aspRatio, float near, float far) {
-	float right = near * std::tan(fov / 2.0f * DEG2RAD);
+	float right = near * gcem::tan(fov / 2.0f * DEG2RAD);
 	float top = right / aspRatio;
 	float dist = far - near;
 

@@ -5,7 +5,15 @@
 #include "src/Setup.hpp"
 #include "src/Window.hpp"
 
+#include "src/Mat.hpp"
+
 int main() {
+	M44 rot = rotation<4>(90.0f, V3(0.0f, 1.0f, 0.0f));
+
+	std::cout << (rot * V4(1.0f, 0.0f, 0.0f, 1.0f)) << '\n';
+
+	return 0;
+
 	if (!initialSetup())
 		return 1;
 

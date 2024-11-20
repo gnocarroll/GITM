@@ -140,37 +140,6 @@ public:
 	constexpr Vec<T, count> Normalize() const {
 		return (*this) / Length();
 	}
-
-	constexpr Mat<T, count, count> CrossProdMat() const
-		requires (count == 3) {
-		Mat<T, count, count> ret;
-		
-		ret[0][1] = -data[2];
-		ret[0][2] = data[1];
-
-		ret[1][0] = data[2];
-		ret[1][2] = -data[0];
-
-		ret[2][0] = -data[1];
-		ret[2][1] = data[0];
-
-		return ret;
-	}
-
-	template <size_t otherCount>
-	constexpr Mat<T, count, otherCount> OuterProd(
-		const Vec<T, otherCount>& other) {
-
-		Mat<T, count, otherCount> ret;
-
-		for (size_t i = 0; i < count; i++) {
-			for (size_t j = 0; j < otherCount; j++) {
-				ret[i][j] = data[i] * other[j];
-			}
-		}
-
-		return ret;
-	}
 };
 
 // v * scalar, scalar * v
@@ -226,6 +195,6 @@ typedef Vec<> V3;
 typedef Vec<i32> V3i;
 typedef Vec<ui32> V3ui;
 
-typedef Vec<> V4;
-typedef Vec<i32> V4i;
-typedef Vec<ui32> V4ui;
+typedef Vec<float, 4> V4;
+typedef Vec<i32, 4> V4i;
+typedef Vec<int, 4> V4ui;

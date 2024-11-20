@@ -6,6 +6,7 @@
       "features": [
         "gl-api-33"
       ]
-    }
+    },
+    "gcem"
   ]
 }
